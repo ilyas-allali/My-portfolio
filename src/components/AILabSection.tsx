@@ -9,9 +9,9 @@ const labProjects = [
     description:
       "An intelligent question-answering platform powered by agentic AI workflows for instant, accurate responses.",
     steps: [
-      { label: "Frontend", detail: "React / Vite" },
-      { label: "Backend", detail: "AI Agents" },
-      { label: "Automation", detail: "n8n Workflows" },
+      { label: "Frontend", detail: "Vite · HTML · CSS" },
+      { label: "Backend / Automation", detail: "TypeScript · JavaScript" },
+      { label: "Intelligence", detail: "AI Agents" },
     ],
   },
   {
@@ -21,9 +21,33 @@ const labProjects = [
     description:
       "A personal finance tool with intelligent categorization, real-time insights, and automated budget tracking.",
     steps: [
-      { label: "Frontend", detail: "React / TypeScript" },
+      { label: "Frontend", detail: "React · TypeScript" },
       { label: "Backend", detail: "Full-Stack API" },
       { label: "Intelligence", detail: "AI Categorization" },
+    ],
+  },
+  {
+    name: "Matajer Alwaha",
+    url: "https://mustafa.matajeralwaha.workers.dev",
+    tagline: "E-Commerce Storefront",
+    description:
+      "A fast, edge-deployed e-commerce experience running on Cloudflare Workers — built for speed and conversion.",
+    steps: [
+      { label: "Frontend", detail: "Modern Web Stack" },
+      { label: "Edge", detail: "Cloudflare Workers" },
+      { label: "Commerce", detail: "Cart · Checkout" },
+    ],
+  },
+  {
+    name: "Electro Box",
+    url: "https://electro-box-commerce.vercel.app",
+    tagline: "Electronics E-Commerce",
+    description:
+      "A polished electronics storefront with curated product catalog, deployed on Vercel with snappy navigation.",
+    steps: [
+      { label: "Frontend", detail: "React · Vercel" },
+      { label: "Catalog", detail: "Product Pages" },
+      { label: "Commerce", detail: "Cart · Checkout" },
     ],
   },
 ];
@@ -47,7 +71,7 @@ const AILabSection = () => {
             From Prototype to Production
           </h2>
           <p className="text-muted-foreground max-w-xl mb-16">
-            Live products built with agentic AI, modern stacks, and real users.
+            Live products built with agentic AI, modern stacks, and real users. Click any title to open the live site.
           </p>
         </motion.div>
 
@@ -58,26 +82,37 @@ const AILabSection = () => {
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6, delay: i * 0.15 }}
+              transition={{ duration: 0.6, delay: i * 0.12 }}
               whileHover={{
-                rotateX: -1,
-                rotateY: 2,
-                scale: 1.01,
+                rotateX: -2,
+                rotateY: 3,
+                scale: 1.015,
                 transition: { duration: 0.3 },
               }}
               style={{ transformPerspective: 1000 }}
-              className="glass rounded-2xl p-8 flex flex-col"
+              className="glass rounded-2xl p-8 flex flex-col group relative overflow-hidden"
             >
-              <div className="flex items-start justify-between mb-6">
+              <div className="absolute -top-24 -right-24 w-64 h-64 rounded-full bg-primary/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+              <div className="flex items-start justify-between mb-6 relative">
                 <div>
-                  <h3 className="text-2xl font-bold text-foreground mb-1">{project.name}</h3>
+                  <a
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block"
+                  >
+                    <h3 className="text-2xl font-bold text-foreground mb-1 hover:text-primary transition-colors cursor-pointer">
+                      {project.name}
+                    </h3>
+                  </a>
                   <p className="text-sm text-primary">{project.tagline}</p>
                 </div>
                 <a
                   href={project.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-muted-foreground hover:text-primary transition-colors"
+                  className="text-xs text-muted-foreground hover:text-primary transition-colors whitespace-nowrap"
                 >
                   Visit ↗
                 </a>
@@ -102,7 +137,7 @@ const AILabSection = () => {
                     transition={{ duration: 0.4, ease: "easeInOut" }}
                     className="overflow-hidden"
                   >
-                    <div className="flex items-center gap-2 pt-4 border-t border-border/50">
+                    <div className="flex flex-wrap items-center gap-2 pt-4 border-t border-border/50">
                       {project.steps.map((step, si) => (
                         <div key={step.label} className="flex items-center gap-2">
                           <div className="bg-secondary rounded-lg px-3 py-2 text-center">

@@ -1,12 +1,26 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
-const phrases = ["Building Agents...", "Kernel Hacking...", "Scaling Startups..."];
+const phrases = ["Building Agents...", "Kernel Hacking...", "Scaling Startups...", "Shipping E-Commerce..."];
 
 const HeroSection = () => {
   const [currentPhrase, setCurrentPhrase] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const glow = glowRef.current;
+    if (!section || !glow) return;
+    const onMove = (e: MouseEvent) => {
+      const rect = section.getBoundingClientRect();
+      glow.style.transform = `translate(${e.clientX - rect.left - 300}px, ${e.clientY - rect.top - 300}px)`;
+    };
+    section.addEventListener("mousemove", onMove);
+    return () => section.removeEventListener("mousemove", onMove);
+  }, []);
 
   useEffect(() => {
     const phrase = phrases[currentPhrase];
@@ -31,13 +45,18 @@ const HeroSection = () => {
   }, [displayText, isDeleting, currentPhrase]);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Subtle grid bg */}
       <div className="absolute inset-0 opacity-[0.03]" style={{
         backgroundImage: `linear-gradient(hsl(var(--muted-foreground)) 1px, transparent 1px),
                           linear-gradient(90deg, hsl(var(--muted-foreground)) 1px, transparent 1px)`,
         backgroundSize: "60px 60px",
       }} />
+      {/* Cursor-follow glow */}
+      <div
+        ref={glowRef}
+        className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[120px] pointer-events-none transition-transform duration-200 ease-out"
+      />
       {/* Gradient orb */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px]" />
 
