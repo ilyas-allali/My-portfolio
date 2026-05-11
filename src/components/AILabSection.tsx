@@ -10,15 +10,15 @@ const AILabSection = () => {
     {
       name: "Mojib.online",
       url: "https://mojib.online",
-      tagline: lang === "fr" ? "Plateforme de réponses IA" : "AI-Powered Answering Platform",
+      tagline: lang === "fr" ? "Assistant IA pour entreprises" : "AI Assistant for Businesses",
       description:
         lang === "fr"
-          ? "Une plateforme intelligente de questions-réponses propulsée par des workflows agentiques pour des réponses instantanées et précises."
-          : "An intelligent question-answering platform powered by agentic AI workflows for instant, accurate responses.",
+          ? "Un assistant IA tout-en-un : prise de rendez-vous pour dentistes, commandes pour restaurants, vente de biens pour l'immobilier — déployé sur le site du client."
+          : "An all-in-one AI assistant: books dentist appointments, takes restaurant orders, sells properties for real estate — deployed on the client's website.",
       steps: [
         { label: "Frontend", detail: "Vite · HTML · CSS" },
         { label: lang === "fr" ? "Backend / Automatisation" : "Backend / Automation", detail: "TypeScript · JavaScript" },
-        { label: lang === "fr" ? "Intelligence" : "Intelligence", detail: lang === "fr" ? "Agents IA" : "AI Agents" },
+        { label: lang === "fr" ? "Cas d'usage" : "Use Cases", detail: lang === "fr" ? "RDV · Commandes · Ventes" : "Bookings · Orders · Sales" },
       ],
     },
     {
@@ -38,15 +38,15 @@ const AILabSection = () => {
     {
       name: "Tiboder",
       url: "https://mustafa.matajeralwaha.workers.dev",
-      tagline: lang === "fr" ? "Boutique e-commerce" : "E-Commerce Storefront",
+      tagline: lang === "fr" ? "E-commerce d'outillage" : "Tools & Hardware E-Commerce",
       description:
         lang === "fr"
-          ? "Une expérience e-commerce rapide, déployée à la périphérie sur Cloudflare Workers — conçue pour la vitesse et la conversion."
-          : "A fast, edge-deployed e-commerce experience running on Cloudflare Workers — built for speed and conversion.",
+          ? "Une boutique en ligne d'outillage — perceuses, meuleuses, visseuses et accessoires pros — déployée à la périphérie sur Cloudflare Workers."
+          : "An online tools & hardware store — drills, grinders, screwdrivers and pro accessories — deployed on Cloudflare Workers at the edge.",
       steps: [
         { label: "Frontend", detail: lang === "fr" ? "Stack Web moderne" : "Modern Web Stack" },
         { label: "Edge", detail: "Cloudflare Workers" },
-        { label: "Commerce", detail: lang === "fr" ? "Panier · Paiement" : "Cart · Checkout" },
+        { label: lang === "fr" ? "Catalogue" : "Catalog", detail: lang === "fr" ? "Outillage pro" : "Pro Tools" },
       ],
     },
     {

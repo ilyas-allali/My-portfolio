@@ -63,27 +63,28 @@ const TiltCard = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-// Tiboder — e-commerce storefront. Show product grid with prices + cart.
+// Tiboder — tools & hardware e-commerce. Show drills, grinders, etc.
 const TiboderMockup = ({ lang }: { lang: "en" | "fr" }) => (
   <div className="flex flex-col gap-2 h-full">
     <div className="flex items-center justify-between text-[10px] text-foreground/80 mb-1">
       <span className="font-bold text-primary">TIBODER</span>
+      <span className="text-muted-foreground">{lang === "fr" ? "Outillage pro" : "Pro Tools"}</span>
       <span className="flex items-center gap-1 bg-primary/20 px-2 py-0.5 rounded-full text-primary">
-        🛒 {lang === "fr" ? "Panier · 3" : "Cart · 3"}
+        🛒 {lang === "fr" ? "Panier · 2" : "Cart · 2"}
       </span>
     </div>
     <div className="grid grid-cols-3 gap-2 flex-1">
       {[
-        { p: "$24", n: lang === "fr" ? "Tee" : "Tee" },
-        { p: "$89", n: lang === "fr" ? "Sneakers" : "Sneakers" },
-        { p: "$15", n: lang === "fr" ? "Sac" : "Bag" },
-        { p: "$42", n: lang === "fr" ? "Casquette" : "Cap" },
-        { p: "$120", n: lang === "fr" ? "Veste" : "Jacket" },
-        { p: "$30", n: lang === "fr" ? "Lunettes" : "Glasses" },
+        { p: "899 DH", n: lang === "fr" ? "Perceuse" : "Drill", e: "🔩" },
+        { p: "1 290 DH", n: lang === "fr" ? "Meuleuse" : "Grinder", e: "⚙️" },
+        { p: "420 DH", n: lang === "fr" ? "Visseuse" : "Screwdriver", e: "🪛" },
+        { p: "150 DH", n: lang === "fr" ? "Marteau" : "Hammer", e: "🔨" },
+        { p: "2 100 DH", n: lang === "fr" ? "Scie circulaire" : "Circular saw", e: "🪚" },
+        { p: "85 DH", n: lang === "fr" ? "Mètre ruban" : "Tape measure", e: "📏" },
       ].map((item, i) => (
         <div key={i} className="bg-secondary/70 rounded-lg p-2 flex flex-col">
-          <div className="bg-primary/20 rounded h-10 mb-1 flex items-center justify-center text-[10px] text-primary/80">
-            IMG
+          <div className="bg-primary/15 rounded h-10 mb-1 flex items-center justify-center text-lg">
+            {item.e}
           </div>
           <p className="text-[9px] text-foreground truncate">{item.n}</p>
           <p className="text-[10px] text-primary font-mono">{item.p}</p>
@@ -126,28 +127,32 @@ const ElectroBoxMockup = ({ lang }: { lang: "en" | "fr" }) => (
   </div>
 );
 
-// Mojib — Q&A AI chat. Show question, agent thinking step, answer.
+// Mojib — AI assistant: bookings, orders, sales for businesses.
 const MojibMockup = ({ lang }: { lang: "en" | "fr" }) => (
-  <div className="flex flex-col gap-2 h-full text-[10px]">
-    <div className="flex items-center gap-2 text-foreground mb-1">
+  <div className="flex flex-col gap-1.5 h-full text-[10px]">
+    <div className="flex items-center justify-between text-foreground mb-1">
       <span className="font-bold text-purple-300">MOJIB</span>
-      <span className="text-muted-foreground">·</span>
-      <span className="text-muted-foreground">{lang === "fr" ? "Plateforme Q&R IA" : "AI Q&A Platform"}</span>
+      <span className="flex gap-1">
+        <span className="px-1.5 py-0.5 rounded bg-purple-400/15 text-purple-300 text-[8px]">🦷 {lang === "fr" ? "Dentiste" : "Dentist"}</span>
+        <span className="px-1.5 py-0.5 rounded bg-purple-400/10 text-muted-foreground text-[8px]">🍕 {lang === "fr" ? "Resto" : "Resto"}</span>
+        <span className="px-1.5 py-0.5 rounded bg-purple-400/10 text-muted-foreground text-[8px]">🏠 {lang === "fr" ? "Immo" : "Real"}</span>
+      </span>
     </div>
-    <div className="bg-purple-400/15 rounded-2xl rounded-br-sm px-3 py-2 self-end max-w-[75%] text-foreground">
-      {lang === "fr" ? "Quelle est la capitale du Maroc ?" : "What's the capital of Morocco?"}
+    <div className="bg-secondary/70 rounded-2xl rounded-bl-sm px-3 py-1.5 self-start max-w-[85%] text-foreground">
+      {lang === "fr"
+        ? "Bonjour 👋 je peux vous réserver un rendez-vous, quelle date ?"
+        : "Hi 👋 I can book your appointment — what date works?"}
+    </div>
+    <div className="bg-purple-400/15 rounded-2xl rounded-br-sm px-3 py-1.5 self-end max-w-[75%] text-foreground">
+      {lang === "fr" ? "Vendredi 14h pour un détartrage" : "Friday 2pm for a cleaning"}
     </div>
     <div className="bg-secondary/70 rounded-lg px-2 py-1 self-start text-[9px] text-purple-300 font-mono flex items-center gap-1">
       <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
-      {lang === "fr" ? "Agent · raisonnement..." : "Agent · reasoning..."}
+      {lang === "fr" ? "Vérification du calendrier..." : "Checking calendar..."}
     </div>
-    <div className="bg-secondary/70 rounded-2xl rounded-bl-sm px-3 py-2 self-start max-w-[85%] text-foreground">
-      {lang === "fr"
-        ? "Rabat. C'est la capitale politique depuis 1912 — Casablanca reste le pôle économique."
-        : "Rabat. It's been the political capital since 1912 — Casablanca remains the economic hub."}
-    </div>
-    <div className="mt-auto bg-secondary/40 rounded-full h-7 flex items-center px-3 text-muted-foreground">
-      {lang === "fr" ? "Pose ta question..." : "Ask anything..."}
+    <div className="bg-secondary/70 rounded-2xl rounded-bl-sm px-3 py-1.5 self-start max-w-[90%] text-foreground">
+      <p>{lang === "fr" ? "✅ Réservé — Dr. Amrani · Vendredi 14:00" : "✅ Booked — Dr. Amrani · Friday 2:00 PM"}</p>
+      <p className="text-[8px] text-purple-300 mt-0.5">{lang === "fr" ? "Confirmation envoyée par SMS" : "Confirmation sent by SMS"}</p>
     </div>
   </div>
 );
@@ -195,8 +200,8 @@ const DesignGallery = () => {
       accent: "#E8B14A",
       caption:
         lang === "fr"
-          ? "Boutique e-commerce : catalogue produits, prix, panier — déployée sur Cloudflare Workers."
-          : "E-commerce storefront: product catalog, prices, cart — deployed on Cloudflare Workers.",
+          ? "Boutique en ligne d'outillage : perceuses, meuleuses, visseuses et accessoires pros — sur Cloudflare Workers."
+          : "Online tools & hardware store: drills, grinders, screwdrivers, and pro accessories — on Cloudflare Workers.",
       preview: <TiboderMockup lang={lang} />,
     },
     {
@@ -215,8 +220,8 @@ const DesignGallery = () => {
       accent: "#A78BFA",
       caption:
         lang === "fr"
-          ? "Chat Q&R propulsé par des agents IA : tu poses, l'agent réfléchit, tu obtiens une vraie réponse."
-          : "AI agent-powered Q&A chat: you ask, the agent reasons, you get a real answer.",
+          ? "Assistant IA déployé sur le site du client : prend les RDV (dentistes), les commandes (restos), vend des biens (immobilier)."
+          : "AI assistant deployed on the client's site: books appointments (dentists), takes orders (restaurants), sells properties (real estate).",
       preview: <MojibMockup lang={lang} />,
     },
     {

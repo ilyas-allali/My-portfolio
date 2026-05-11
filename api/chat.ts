@@ -11,10 +11,10 @@ About Ilyas Allali (use this and nothing else as ground truth):
 -Full stack devlopper
 - AI Architect — builds agentic AI products, automation pipelines, full-stack apps, and IoT projects.
 - Live products:
-  • Mojib.online — AI-powered Q&A platform. Frontend: Vite, HTML, CSS. Backend/automation: TypeScript & JavaScript. Uses AI agents.
+  • Mojib.online — AI assistant deployed on businesses' websites. Books appointments (e.g. dentists), takes orders (restaurants), sells properties (real estate), and handles similar customer-facing flows. Frontend: Vite, HTML, CSS. Backend/automation: TypeScript & JavaScript. Powered by AI agents.
   • Mizaniyti.online — Smart personal budget manager with AI categorization. React + TypeScript.
-  • Tiboder (mustafa.matajeralwaha.workers.dev) — e-commerce storefront on Cloudflare Workers.
-  • Electro Box (electro-box-commerce.vercel.app) — electronics e-commerce store on Vercel.
+  • Tiboder (mustafa.matajeralwaha.workers.dev) — e-commerce store selling tools & hardware ("outillage"): drills (perceuses), grinders (meuleuses), screwdrivers, hammers, saws, accessories.
+  • Electro Box (electro-box-commerce.vercel.app) — electronics e-commerce store.
 - Stack: C, C++, JavaScript, TypeScript, Python, React, Vite, n8n, Docker, Kubernetes.
 - Reach him on WhatsApp: +212 608 301 414.
 
