@@ -1,14 +1,27 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-
-const phrases = ["Building Agents...", "Kernel Hacking...", "Scaling Startups...", "Shipping E-Commerce..."];
+import { useLang } from "@/lib/i18n";
 
 const HeroSection = () => {
+  const { t, lang } = useLang();
+  const phrases = [
+    t("hero.phrase.1"),
+    t("hero.phrase.2"),
+    t("hero.phrase.3"),
+    t("hero.phrase.4"),
+  ];
+
   const [currentPhrase, setCurrentPhrase] = useState(0);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setDisplayText("");
+    setIsDeleting(false);
+    setCurrentPhrase(0);
+  }, [lang]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -42,22 +55,19 @@ const HeroSection = () => {
       isDeleting ? 40 : 80
     );
     return () => clearTimeout(timeout);
-  }, [displayText, isDeleting, currentPhrase]);
+  }, [displayText, isDeleting, currentPhrase, phrases]);
 
   return (
     <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Subtle grid bg */}
       <div className="absolute inset-0 opacity-[0.03]" style={{
         backgroundImage: `linear-gradient(hsl(var(--muted-foreground)) 1px, transparent 1px),
                           linear-gradient(90deg, hsl(var(--muted-foreground)) 1px, transparent 1px)`,
         backgroundSize: "60px 60px",
       }} />
-      {/* Cursor-follow glow */}
       <div
         ref={glowRef}
         className="absolute top-0 left-0 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[120px] pointer-events-none transition-transform duration-200 ease-out"
       />
-      {/* Gradient orb */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px]" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
@@ -67,7 +77,7 @@ const HeroSection = () => {
           transition={{ duration: 0.6 }}
           className="text-sm tracking-[0.3em] uppercase text-muted-foreground mb-6"
         >
-          1337 (42 Network) · UM6P
+          {t("hero.kicker")}
         </motion.p>
 
         <motion.h1
@@ -79,10 +89,9 @@ const HeroSection = () => {
           Ilyas Allali{" "}
           <span className="text-muted-foreground font-light">//</span>{" "}
           <br className="hidden md:block" />
-          <span className="text-gradient">AI Architect</span>
+          <span className="text-gradient">{t("hero.role")}</span>
         </motion.h1>
 
-        {/* Terminal typing */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -105,7 +114,7 @@ const HeroSection = () => {
             download
             className="px-6 py-3 rounded-lg bg-primary text-primary-foreground font-medium text-sm hover:opacity-90 transition-opacity duration-300"
           >
-            Download CV
+            {t("hero.cv")}
           </a>
           <a
             href="https://wa.me/212608301414"
@@ -113,7 +122,7 @@ const HeroSection = () => {
             rel="noopener noreferrer"
             className="px-6 py-3 rounded-lg glass text-foreground font-medium text-sm hover:border-primary/40 transition-all duration-300"
           >
-            Let's Talk →
+            {t("hero.talk")}
           </a>
         </motion.div>
       </div>

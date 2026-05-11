@@ -1,21 +1,20 @@
 import { motion } from "framer-motion";
+import { useLang } from "@/lib/i18n";
 
-const skillGroups = [
-  {
-    category: "Languages",
-    items: ["C", "C++", "JavaScript", "TypeScript", "Python"],
-  },
-  {
-    category: "Tools",
-    items: ["n8n", "Docker", "Kubernetes", "React", "Vite"],
-  },
-  {
-    category: "Expertise",
-    items: ["IoT Automation", "Agentic AI", "Full-Stack Architecture"],
-  },
-];
-
-const SkillsSection = () => (
+const SkillsSection = () => {
+  const { t, lang } = useLang();
+  const skillGroups = [
+    { category: t("skills.languages"), items: ["C", "C++", "JavaScript", "TypeScript", "Python"] },
+    { category: t("skills.tools"), items: ["n8n", "Docker", "Kubernetes", "React", "Vite"] },
+    {
+      category: t("skills.expertise"),
+      items:
+        lang === "fr"
+          ? ["Automatisation IoT", "IA Agentique", "Architecture Full-Stack"]
+          : ["IoT Automation", "Agentic AI", "Full-Stack Architecture"],
+    },
+  ];
+  return (
   <section id="skills" className="py-32 px-6">
     <div className="max-w-6xl mx-auto">
       <motion.div
@@ -25,7 +24,7 @@ const SkillsSection = () => (
         transition={{ duration: 0.6 }}
       >
         <p className="text-sm tracking-[0.3em] uppercase text-primary mb-3">
-          Technical Terminal
+          {t("skills.kicker")}
         </p>
         <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-16">
           ~/skills
@@ -63,6 +62,7 @@ const SkillsSection = () => (
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default SkillsSection;

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useLang } from "@/lib/i18n";
 
 const projects = [
   {
@@ -33,7 +34,9 @@ const cardVariants = {
   }),
 };
 
-const FoundationSection = () => (
+const FoundationSection = () => {
+  const { t } = useLang();
+  return (
   <section id="foundation" className="py-32 px-6">
     <div className="max-w-6xl mx-auto">
       <motion.div
@@ -43,13 +46,13 @@ const FoundationSection = () => (
         transition={{ duration: 0.6 }}
       >
         <p className="text-sm tracking-[0.3em] uppercase text-primary mb-3">
-          The 42 Foundation
+          {t("foundation.kicker")}
         </p>
         <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-          Engineering From First Principles
+          {t("foundation.title")}
         </h2>
         <p className="text-muted-foreground max-w-xl mb-16">
-          No teachers. No classes. Peer-to-peer learning at 1337 — where every line of code is earned.
+          {t("foundation.sub")}
         </p>
       </motion.div>
 
@@ -96,6 +99,7 @@ const FoundationSection = () => (
       </div>
     </div>
   </section>
-);
+  );
+};
 
 export default FoundationSection;
