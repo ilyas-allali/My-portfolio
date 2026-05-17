@@ -74,6 +74,13 @@
   .glow-md {
     box-shadow: 0 0 40px hsl(var(--gold-glow) / 0.15);
   }
+  .glow-pulse {
+    animation: glow-pulse 2s ease-in-out infinite;
+  }
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 18px 4px hsl(var(--gold-glow) / 0.45), 0 0 6px 1px hsl(var(--gold-glow) / 0.5); }
+    50%       { box-shadow: 0 0 38px 10px hsl(var(--gold-glow) / 0.7), 0 0 14px 4px hsl(var(--gold-glow) / 0.65); }
+  }
   .shimmer {
     background: linear-gradient(110deg, transparent 30%, hsl(var(--primary) / 0.25) 50%, transparent 70%);
     background-size: 200% 100%;

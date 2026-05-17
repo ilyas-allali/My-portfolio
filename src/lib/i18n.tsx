@@ -51,18 +51,44 @@ const dict: Dict = {
   },
 
   // Skills
-  "skills.kicker": { en: "Technical Terminal", fr: "Terminal Technique" },
+  "skills.kicker": { en: "Technical Stack", fr: "Stack Technique" },
+  "skills.title": { en: "What I Build With", fr: "Ce avec quoi je construis" },
+  "skills.sub": {
+    en: "From low-level C to agentic AI — a full range of tools I've used in production.",
+    fr: "Du C bas niveau à l'IA agentique — une palette complète d'outils utilisés en production.",
+  },
   "skills.languages": { en: "Languages", fr: "Langages" },
-  "skills.tools": { en: "Tools", fr: "Outils" },
+  "skills.tools": { en: "Tools & DevOps", fr: "Outils & DevOps" },
   "skills.expertise": { en: "Expertise", fr: "Expertise" },
+  "skills.can_build": { en: "What I can build for you", fr: "Ce que je peux construire pour vous" },
+  "skills.build.ai": { en: "AI Agents & Chatbots", fr: "Agents IA & Chatbots" },
+  "skills.build.ai.sub": {
+    en: "Autonomous agents, agentic workflows, chatbots deployed on your website.",
+    fr: "Agents autonomes, workflows agentiques, chatbots déployés sur votre site.",
+  },
+  "skills.build.ecom": { en: "E-Commerce Stores", fr: "Boutiques E-Commerce" },
+  "skills.build.ecom.sub": {
+    en: "Full storefronts with product catalog, cart, checkout — fast and conversion-ready.",
+    fr: "Boutiques complètes : catalogue, panier, paiement — rapides et optimisées pour la conversion.",
+  },
+  "skills.build.automation": { en: "Automation Pipelines", fr: "Pipelines d'automatisation" },
+  "skills.build.automation.sub": {
+    en: "n8n workflows, IoT integrations, backend automation with TypeScript & Python.",
+    fr: "Workflows n8n, intégrations IoT, automatisation backend avec TypeScript & Python.",
+  },
 
   // Contact
-  "contact.title.a": { en: "Ready to Automate", fr: "Prêt à automatiser" },
-  "contact.title.b": { en: "your Business?", fr: "votre business ?" },
+  "contact.title.a": { en: "Got a project?", fr: "Un projet en tête ?" },
+  "contact.title.b": { en: "Let's build it.", fr: "On le construit ensemble." },
   "contact.sub": {
-    en: "Let's build something exceptional together.",
-    fr: "Construisons quelque chose d'exceptionnel ensemble.",
+    en: "Whether it's an AI agent, an e-commerce store, or a full automation — I'm in.",
+    fr: "Que ce soit un agent IA, une boutique e-commerce ou une automatisation complète — je suis partant.",
   },
+  "contact.wa": { en: "Message on WhatsApp", fr: "Message sur WhatsApp" },
+  "contact.wa.sub": { en: "Fastest way to reach me", fr: "Le moyen le plus rapide" },
+  "contact.email": { en: "Send an email", fr: "Envoyer un email" },
+  "contact.email.sub": { en: "For longer discussions", fr: "Pour les discussions plus longues" },
+  "contact.available": { en: "Available for freelance & collab", fr: "Disponible en freelance & collab" },
   "contact.copyright": {
     en: "© 2026 Ilyas Allali. Built with precision.",
     fr: "© 2026 Ilyas Allali. Conçu avec précision.",

@@ -98,7 +98,7 @@ const ChatbotWidget = () => {
         onClick={() => setOpen((o) => !o)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-2xl flex items-center justify-center font-bold text-xl glow-md"
+        className={`fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-2xl flex items-center justify-center font-bold text-xl ${open ? "glow-md" : "glow-pulse"}`}
         aria-label="Chat with Mini Ilyas"
       >
         {open ? "×" : "💬"}
