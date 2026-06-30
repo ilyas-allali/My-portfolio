@@ -46,8 +46,8 @@ const dict: Dict = {
   "design.kicker": { en: "Design Gallery", fr: "Galerie Design" },
   "design.title": { en: "What I Built — In 3D", fr: "Ce que j'ai construit — en 3D" },
   "design.sub": {
-    en: "Hover any card to tilt it. Each mockup illustrates what the product actually does.",
-    fr: "Survolez une carte pour l'incliner. Chaque maquette illustre ce que fait vraiment le produit.",
+    en: "Scroll through a horizontal product track. Each mockup illustrates what the product actually does.",
+    fr: "Faites défiler une piste produit horizontale. Chaque maquette illustre ce que fait vraiment le produit.",
   },
 
   // Skills

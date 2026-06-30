@@ -7,9 +7,7 @@ const Navbar = () => {
   const { t, lang, setLang } = useLang();
 
   const navLinks = [
-    { label: t("nav.foundation"), href: "#foundation" },
     { label: t("nav.ai_lab"), href: "#ai-lab" },
-    { label: t("nav.design"), href: "#design" },
     { label: t("nav.skills"), href: "#skills" },
     { label: t("nav.contact"), href: "#contact" },
   ];
@@ -30,7 +28,7 @@ const Navbar = () => {
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#" className="text-lg font-semibold tracking-tight text-foreground">
+        <a href="#" className="text-lg font-semibold tracking-tight text-slate-900">
           IA<span className="text-primary">.</span>
         </a>
         <div className="hidden md:flex items-center gap-8">
@@ -38,7 +36,7 @@ const Navbar = () => {
             <a
               key={link.href}
               href={link.href}
-              className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300"
+              className="text-sm text-zinc-500 hover:text-primary transition-colors duration-300"
             >
               {link.label}
             </a>
@@ -50,8 +48,8 @@ const Navbar = () => {
               onClick={() => setLang("en")}
               className={`px-2.5 py-1 rounded-full transition-colors ${
                 lang === "en"
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "bg-zinc-900 text-white"
+                  : "text-zinc-500 hover:text-zinc-900"
               }`}
               aria-pressed={lang === "en"}
               aria-label="Switch to English"
@@ -62,8 +60,8 @@ const Navbar = () => {
               onClick={() => setLang("fr")}
               className={`px-2.5 py-1 rounded-full transition-colors ${
                 lang === "fr"
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "bg-zinc-900 text-white"
+                  : "text-zinc-500 hover:text-zinc-900"
               }`}
               aria-pressed={lang === "fr"}
               aria-label="Passer au français"
@@ -75,7 +73,7 @@ const Navbar = () => {
             href="https://wa.me/212608301414"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden sm:inline-block text-sm px-4 py-2 rounded-lg glass border-primary/20 text-primary hover:glow-sm transition-all duration-300"
+            className="hidden sm:inline-block text-sm px-4 py-2 rounded-lg bg-[#D4AF37] text-zinc-900 hover:bg-[#E7C85C] font-semibold transition-all duration-300 shadow-sm"
           >
             {t("nav.cta")}
           </a>

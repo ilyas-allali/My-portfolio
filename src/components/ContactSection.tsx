@@ -5,7 +5,7 @@ const ContactSection = () => {
   const { t, lang, setLang } = useLang();
 
   return (
-    <section id="contact" className="py-32 px-6 relative overflow-hidden">
+    <section id="contact" className="py-12 md:py-24 px-6 relative overflow-hidden">
       {/* Background orb */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full bg-primary/8 blur-[100px] pointer-events-none" />
 
@@ -22,11 +22,11 @@ const ContactSection = () => {
             <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
             {t("contact.available")}
           </div>
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 leading-[1.1]">
+          <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 leading-[1.1] text-slate-900">
             {t("contact.title.a")}{" "}
             <span className="text-gradient">{t("contact.title.b")}</span>
           </h2>
-          <p className="text-muted-foreground text-lg max-w-lg mx-auto leading-relaxed">
+          <p className="text-zinc-500 text-lg max-w-lg mx-auto leading-relaxed">
             {t("contact.sub")}
           </p>
         </motion.div>
@@ -50,10 +50,10 @@ const ContactSection = () => {
               💬
             </div>
             <div>
-              <p className="text-xs text-muted-foreground mb-0.5">WhatsApp</p>
-              <p className="text-base font-semibold text-foreground">{t("contact.wa")}</p>
+              <p className="text-xs text-zinc-500 mb-0.5">WhatsApp</p>
+              <p className="text-base font-semibold text-slate-900">{t("contact.wa")}</p>
               <p className="text-xs text-green-400 mt-1">{t("contact.wa.sub")}</p>
-              <p className="text-sm font-mono text-muted-foreground mt-1">+212 608 301 414</p>
+              <p className="text-sm font-mono text-zinc-500 mt-1">+212 608 301 414</p>
             </div>
           </a>
 
@@ -66,10 +66,10 @@ const ContactSection = () => {
               ✉️
             </div>
             <div>
-              <p className="text-xs text-muted-foreground mb-0.5">Email</p>
-              <p className="text-base font-semibold text-foreground">{t("contact.email")}</p>
+              <p className="text-xs text-zinc-500 mb-0.5">Email</p>
+              <p className="text-base font-semibold text-slate-900">{t("contact.email")}</p>
               <p className="text-xs text-primary mt-1">{t("contact.email.sub")}</p>
-              <p className="text-sm font-mono text-muted-foreground mt-1">allaliilyas4@gmail.com</p>
+              <p className="text-sm font-mono text-zinc-500 mt-1">allaliilyas4@gmail.com</p>
             </div>
           </a>
         </motion.div>
@@ -85,15 +85,15 @@ const ContactSection = () => {
           className="group flex items-center justify-between glass-frost rounded-2xl px-6 py-4 hover:border-primary/40 transition-all duration-300 hover:glow-sm mb-16"
         >
           <div>
-            <p className="text-sm font-medium text-foreground">{t("contact.cv")}</p>
-            <p className="text-xs text-muted-foreground">Ilyas Allali · CV 2026</p>
+            <p className="text-sm font-medium text-slate-900">{t("contact.cv")}</p>
+            <p className="text-xs text-zinc-500">Ilyas Allali · CV 2026</p>
           </div>
           <span className="text-2xl group-hover:translate-y-1 transition-transform duration-300">⬇️</span>
         </motion.a>
 
         {/* Footer */}
         <div className="border-t border-border/40 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-muted-foreground">{t("contact.copyright")}</p>
+          <p className="text-xs text-zinc-500">{t("contact.copyright")}</p>
           <div
             role="group"
             aria-label={t("contact.language")}
@@ -103,8 +103,8 @@ const ContactSection = () => {
               onClick={() => setLang("en")}
               className={`px-3 py-1.5 rounded-full transition-all ${
                 lang === "en"
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "bg-zinc-900 text-white"
+                  : "text-zinc-500 hover:text-zinc-900"
               }`}
               aria-pressed={lang === "en"}
             >
@@ -114,8 +114,8 @@ const ContactSection = () => {
               onClick={() => setLang("fr")}
               className={`px-3 py-1.5 rounded-full transition-all ${
                 lang === "fr"
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "bg-zinc-900 text-white"
+                  : "text-zinc-500 hover:text-zinc-900"
               }`}
               aria-pressed={lang === "fr"}
             >

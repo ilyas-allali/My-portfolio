@@ -1,6 +1,12 @@
-import { useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useLayoutEffect, useRef, type ReactNode } from "react";
+import { motion } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ArrowUpRight } from "lucide-react";
+import { PREMIUM_EASE } from "@/lib/motion";
 import { useLang } from "@/lib/i18n";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const Browser = ({
   url,
@@ -8,285 +14,337 @@ const Browser = ({
   accent,
 }: {
   url: string;
-  children: React.ReactNode;
+  children: ReactNode;
   accent: string;
 }) => (
-  <div className="rounded-xl overflow-hidden border border-white/10 shadow-2xl glass-frost w-full">
-    <div className="flex items-center gap-2 px-3 py-2 bg-secondary/60 border-b border-white/5">
-      <span className="w-2.5 h-2.5 rounded-full bg-red-400/70" />
-      <span className="w-2.5 h-2.5 rounded-full bg-yellow-400/70" />
-      <span className="w-2.5 h-2.5 rounded-full bg-green-400/70" />
-      <div className="flex-1 text-[10px] text-muted-foreground font-mono truncate text-center">
+  <div className="h-full overflow-hidden rounded-lg border border-zinc-200 bg-white shadow-2xl">
+    <div className="flex items-center gap-2 border-b border-zinc-200 bg-zinc-50 px-3 py-2">
+      <span className="size-2 rounded-sm bg-zinc-300" />
+      <span className="size-2 rounded-sm bg-primary/60" />
+      <span className="size-2 rounded-sm bg-zinc-200" />
+      <div className="min-w-0 flex-1 truncate text-center font-mono text-[10px] text-zinc-500">
         {url}
       </div>
     </div>
     <div
-      className="p-4 h-[240px] relative"
-      style={{ background: `linear-gradient(135deg, ${accent}14, transparent 60%)` }}
+      className="relative h-[320px] p-4 sm:h-[360px] md:h-[420px]"
+      style={{ background: `linear-gradient(135deg, ${accent}18, transparent 62%)` }}
     >
       {children}
     </div>
   </div>
 );
 
-const TiltCard = ({ children }: { children: React.ReactNode }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 200, damping: 20 });
-  const sy = useSpring(y, { stiffness: 200, damping: 20 });
-  const rotateX = useTransform(sy, [-50, 50], [10, -10]);
-  const rotateY = useTransform(sx, [-50, 50], [-12, 12]);
-
-  const handleMove = (e: React.MouseEvent) => {
-    const rect = ref.current?.getBoundingClientRect();
-    if (!rect) return;
-    x.set(e.clientX - rect.left - rect.width / 2);
-    y.set(e.clientY - rect.top - rect.height / 2);
-  };
-
-  const reset = () => {
-    x.set(0);
-    y.set(0);
-  };
-
-  return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMove}
-      onMouseLeave={reset}
-      style={{ rotateX, rotateY, transformPerspective: 1200, transformStyle: "preserve-3d" }}
-      className="will-change-transform"
-    >
-      {children}
-    </motion.div>
-  );
-};
-
-// Tiboder — tools & hardware e-commerce. Show drills, grinders, etc.
-const TiboderMockup = ({ lang }: { lang: "en" | "fr" }) => (
-  <div className="flex flex-col gap-2 h-full">
-    <div className="flex items-center justify-between text-[10px] text-foreground/80 mb-1">
-      <span className="font-bold text-primary">TIBODER</span>
-      <span className="text-muted-foreground">{lang === "fr" ? "Outillage pro" : "Pro Tools"}</span>
-      <span className="flex items-center gap-1 bg-primary/20 px-2 py-0.5 rounded-full text-primary">
-        🛒 {lang === "fr" ? "Panier · 2" : "Cart · 2"}
-      </span>
-    </div>
-    <div className="grid grid-cols-3 gap-2 flex-1">
-      {[
-        { p: "899 DH", n: lang === "fr" ? "Perceuse" : "Drill", e: "🔩" },
-        { p: "1 290 DH", n: lang === "fr" ? "Meuleuse" : "Grinder", e: "⚙️" },
-        { p: "420 DH", n: lang === "fr" ? "Visseuse" : "Screwdriver", e: "🪛" },
-        { p: "150 DH", n: lang === "fr" ? "Marteau" : "Hammer", e: "🔨" },
-        { p: "2 100 DH", n: lang === "fr" ? "Scie circulaire" : "Circular saw", e: "🪚" },
-        { p: "85 DH", n: lang === "fr" ? "Mètre ruban" : "Tape measure", e: "📏" },
-      ].map((item, i) => (
-        <div key={i} className="bg-secondary/70 rounded-lg p-2 flex flex-col">
-          <div className="bg-primary/15 rounded h-10 mb-1 flex items-center justify-center text-lg">
-            {item.e}
-          </div>
-          <p className="text-[9px] text-foreground truncate">{item.n}</p>
-          <p className="text-[10px] text-primary font-mono">{item.p}</p>
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
-// Electro Box — electronics store with categories sidebar.
-const ElectroBoxMockup = ({ lang }: { lang: "en" | "fr" }) => (
-  <div className="flex gap-2 h-full">
-    <div className="w-24 bg-secondary/70 rounded-lg p-2 flex flex-col gap-1 text-[9px] text-muted-foreground">
-      <p className="text-blue-300 font-bold mb-1">{lang === "fr" ? "Catégories" : "Categories"}</p>
-      <p className="hover:text-foreground">📱 {lang === "fr" ? "Téléphones" : "Phones"}</p>
-      <p className="text-foreground bg-blue-400/10 rounded px-1">💻 {lang === "fr" ? "Laptops" : "Laptops"}</p>
-      <p>🎧 Audio</p>
-      <p>⌚ {lang === "fr" ? "Montres" : "Watches"}</p>
-      <p>📷 {lang === "fr" ? "Caméras" : "Cameras"}</p>
-    </div>
-    <div className="flex-1 grid grid-cols-2 gap-2">
-      {[
-        { p: "$999", n: "MacBook Air" },
-        { p: "$1299", n: "ThinkPad X1" },
-        { p: "$849", n: "Dell XPS 13" },
-        { p: "$1599", n: "ROG Zephyrus" },
-      ].map((item, i) => (
-        <div key={i} className="bg-secondary/70 rounded-lg p-2 flex flex-col">
-          <div className="bg-blue-400/20 rounded h-8 mb-1 flex items-center justify-center text-[9px] text-blue-300">
-            💻
-          </div>
-          <p className="text-[9px] text-foreground truncate">{item.n}</p>
-          <div className="flex justify-between items-center mt-1">
-            <p className="text-[10px] text-blue-300 font-mono">{item.p}</p>
-            <span className="text-[8px] text-blue-300 bg-blue-400/15 px-1 rounded">{lang === "fr" ? "+ panier" : "+ cart"}</span>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
-// Mojib — AI assistant: bookings, orders, sales for businesses.
-const MojibMockup = ({ lang }: { lang: "en" | "fr" }) => (
-  <div className="flex flex-col gap-1.5 h-full text-[10px]">
-    <div className="flex items-center justify-between text-foreground mb-1">
-      <span className="font-bold text-purple-300">MOJIB</span>
-      <span className="flex gap-1">
-        <span className="px-1.5 py-0.5 rounded bg-purple-400/15 text-purple-300 text-[8px]">🦷 {lang === "fr" ? "Dentiste" : "Dentist"}</span>
-        <span className="px-1.5 py-0.5 rounded bg-purple-400/10 text-muted-foreground text-[8px]">🍕 {lang === "fr" ? "Resto" : "Resto"}</span>
-        <span className="px-1.5 py-0.5 rounded bg-purple-400/10 text-muted-foreground text-[8px]">🏠 {lang === "fr" ? "Immo" : "Real"}</span>
-      </span>
-    </div>
-    <div className="bg-secondary/70 rounded-2xl rounded-bl-sm px-3 py-1.5 self-start max-w-[85%] text-foreground">
-      {lang === "fr"
-        ? "Bonjour 👋 je peux vous réserver un rendez-vous, quelle date ?"
-        : "Hi 👋 I can book your appointment — what date works?"}
-    </div>
-    <div className="bg-purple-400/15 rounded-2xl rounded-br-sm px-3 py-1.5 self-end max-w-[75%] text-foreground">
-      {lang === "fr" ? "Vendredi 14h pour un détartrage" : "Friday 2pm for a cleaning"}
-    </div>
-    <div className="bg-secondary/70 rounded-lg px-2 py-1 self-start text-[9px] text-purple-300 font-mono flex items-center gap-1">
-      <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
-      {lang === "fr" ? "Vérification du calendrier..." : "Checking calendar..."}
-    </div>
-    <div className="bg-secondary/70 rounded-2xl rounded-bl-sm px-3 py-1.5 self-start max-w-[90%] text-foreground">
-      <p>{lang === "fr" ? "✅ Réservé — Dr. Amrani · Vendredi 14:00" : "✅ Booked — Dr. Amrani · Friday 2:00 PM"}</p>
-      <p className="text-[8px] text-purple-300 mt-0.5">{lang === "fr" ? "Confirmation envoyée par SMS" : "Confirmation sent by SMS"}</p>
-    </div>
-  </div>
-);
-
-// Mizaniyti — budget dashboard. Show balance + chart + AI category tags.
-const MizaniytiMockup = ({ lang }: { lang: "en" | "fr" }) => (
-  <div className="grid grid-cols-2 gap-2 h-full text-[10px]">
-    <div className="bg-secondary/70 rounded-lg p-2 flex flex-col">
-      <p className="text-muted-foreground">{lang === "fr" ? "Solde" : "Balance"}</p>
-      <p className="text-lg font-bold text-green-300 leading-tight">2 480 MAD</p>
-      <p className="text-[9px] text-green-400">+12% {lang === "fr" ? "ce mois" : "this month"}</p>
-      <div className="mt-2 space-y-1">
-        <div className="flex justify-between"><span className="text-muted-foreground">{lang === "fr" ? "Courses" : "Groceries"}</span><span className="text-foreground">820</span></div>
-        <div className="flex justify-between"><span className="text-muted-foreground">Transport</span><span className="text-foreground">340</span></div>
+const StorefrontMockup = ({ lang, accent }: { lang: "en" | "fr"; accent: string }) => (
+  <div className="flex h-full flex-col gap-3">
+    <div className="flex items-center justify-between">
+      <div>
+        <p className="font-mono text-[10px] uppercase tracking-[0.22em]" style={{ color: accent }}>
+          {lang === "fr" ? "Catalogue" : "Catalog"}
+        </p>
+        <p className="text-lg font-semibold text-zinc-900">Tiboder</p>
+      </div>
+      <div className="rounded-lg border border-zinc-200 px-3 py-2 font-mono text-xs text-zinc-500">
+        2 items
       </div>
     </div>
-    <div className="bg-secondary/70 rounded-lg p-2 flex flex-col">
-      <p className="text-muted-foreground mb-1">{lang === "fr" ? "Cette semaine" : "This week"}</p>
-      <div className="flex items-end gap-1 flex-1">
-        {[40, 65, 35, 80, 55, 70, 45].map((h, i) => (
-          <div key={i} className="flex-1 bg-green-400/60 rounded-t" style={{ height: `${h}%` }} />
+    <div className="grid flex-1 grid-cols-2 gap-3 sm:grid-cols-3">
+      {[
+        ["899 DH", lang === "fr" ? "Perceuse" : "Drill"],
+        ["1 290 DH", lang === "fr" ? "Meuleuse" : "Grinder"],
+        ["420 DH", lang === "fr" ? "Visseuse" : "Driver"],
+        ["150 DH", lang === "fr" ? "Marteau" : "Hammer"],
+        ["2 100 DH", lang === "fr" ? "Scie" : "Circular saw"],
+        ["85 DH", lang === "fr" ? "Mètre" : "Tape measure"],
+      ].map(([price, name], index) => (
+        <div key={name} className="flex flex-col rounded-lg border border-zinc-200 bg-zinc-50 p-3">
+          <div
+            className="mb-3 h-16 rounded-md border border-zinc-200"
+            style={{
+              background: `linear-gradient(135deg, ${accent}${index % 2 ? "18" : "28"}, rgba(244,244,245,1))`,
+            }}
+          />
+          <p className="truncate text-xs text-zinc-900">{name}</p>
+          <p className="mt-auto font-mono text-xs" style={{ color: accent }}>
+            {price}
+          </p>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const ElectronicsMockup = ({ lang, accent }: { lang: "en" | "fr"; accent: string }) => (
+  <div className="grid h-full grid-cols-[0.42fr_1fr] gap-3">
+    <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-3">
+      <p className="mb-4 font-mono text-[10px] uppercase tracking-[0.22em]" style={{ color: accent }}>
+        {lang === "fr" ? "Rayons" : "Aisles"}
+      </p>
+      {[lang === "fr" ? "Téléphones" : "Phones", "Laptops", "Audio", lang === "fr" ? "Montres" : "Watches"].map(
+        (item, index) => (
+          <div
+            key={item}
+            className="mb-2 rounded-md px-2 py-2 text-xs"
+            style={{
+              background: index === 1 ? `${accent}18` : "transparent",
+              color: index === 1 ? accent : "rgba(113,113,122,0.8)",
+            }}
+          >
+            {item}
+          </div>
+        )
+      )}
+    </div>
+    <div className="grid grid-cols-2 gap-3">
+      {["MacBook Air", "ThinkPad X1", "Dell XPS 13", "ROG Zephyrus"].map((item, index) => (
+        <div key={item} className="rounded-lg border border-zinc-200 bg-zinc-50 p-3">
+          <div
+            className="mb-3 h-20 rounded-md border border-zinc-200"
+            style={{ background: `linear-gradient(145deg, ${accent}${index % 2 ? "16" : "26"}, rgba(244,244,245,1))` }}
+          />
+          <p className="truncate text-xs text-zinc-900">{item}</p>
+          <div className="mt-3 h-1.5 rounded-sm bg-zinc-200">
+            <div className="h-full rounded-sm" style={{ width: `${52 + index * 12}%`, background: accent }} />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+const AssistantMockup = ({ lang, accent }: { lang: "en" | "fr"; accent: string }) => (
+  <div className="flex h-full flex-col justify-end gap-3 text-sm">
+    <div className="mr-auto max-w-[82%] rounded-lg rounded-bl-sm border border-zinc-200 bg-zinc-50 px-4 py-3 text-zinc-700">
+      {lang === "fr"
+        ? "Bonjour, je peux réserver votre rendez-vous. Quelle date vous arrange ?"
+        : "Hi, I can book your appointment. Which date works?"}
+    </div>
+    <div className="ml-auto max-w-[74%] rounded-lg rounded-br-sm px-4 py-3 text-zinc-900" style={{ background: accent }}>
+      {lang === "fr" ? "Vendredi 14h pour un détartrage" : "Friday 2pm for a cleaning"}
+    </div>
+    <div className="mr-auto rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 font-mono text-xs" style={{ color: accent }}>
+      {lang === "fr" ? "verification calendrier..." : "checking calendar..."}
+    </div>
+    <div className="mr-auto max-w-[86%] rounded-lg rounded-bl-sm border border-zinc-200 bg-zinc-50 px-4 py-3 text-zinc-700">
+      {lang === "fr" ? "Réservé: Dr. Amrani · Vendredi 14:00" : "Booked: Dr. Amrani · Friday 2:00 PM"}
+      <p className="mt-1 font-mono text-[10px]" style={{ color: accent }}>
+        {lang === "fr" ? "confirmation SMS envoyée" : "SMS confirmation sent"}
+      </p>
+    </div>
+  </div>
+);
+
+const BudgetMockup = ({ lang, accent }: { lang: "en" | "fr"; accent: string }) => (
+  <div className="grid h-full grid-cols-2 gap-3">
+    <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-4">
+      <p className="text-xs text-zinc-500">{lang === "fr" ? "Solde" : "Balance"}</p>
+      <p className="mt-2 text-3xl font-semibold text-zinc-900">2 480</p>
+      <p className="font-mono text-xs" style={{ color: accent }}>
+        +12% {lang === "fr" ? "ce mois" : "this month"}
+      </p>
+      <div className="mt-8 space-y-3">
+        {[72, 44, 61].map((value, index) => (
+          <div key={index} className="h-1.5 rounded-sm bg-zinc-200">
+            <div className="h-full rounded-sm" style={{ width: `${value}%`, background: accent }} />
+          </div>
         ))}
       </div>
     </div>
-    <div className="col-span-2 bg-secondary/70 rounded-lg p-2 flex items-center gap-2">
-      <div className="w-7 h-7 rounded-full bg-green-400/20 flex items-center justify-center">🛒</div>
-      <div className="flex-1">
-        <p className="text-foreground text-[10px]">{lang === "fr" ? "Carrefour Maarif" : "Carrefour Maarif"}</p>
-        <span className="text-[8px] bg-green-400/15 text-green-300 px-1.5 py-0.5 rounded">
-          {lang === "fr" ? "IA: Courses" : "AI: Groceries"}
-        </span>
+    <div className="rounded-lg border border-zinc-200 bg-zinc-50 p-4">
+      <p className="mb-4 text-xs text-zinc-500">{lang === "fr" ? "Semaine" : "Week"}</p>
+      <div className="flex h-[78%] items-end gap-2">
+        {[40, 66, 35, 80, 55, 70, 45].map((height, index) => (
+          <div key={index} className="flex-1 rounded-t-sm" style={{ height: `${height}%`, background: `${accent}B8` }} />
+        ))}
       </div>
-      <p className="text-green-300 font-mono">-148</p>
+    </div>
+    <div className="col-span-2 rounded-lg border border-zinc-200 bg-zinc-50 p-4">
+      <div className="flex items-center justify-between gap-4">
+        <div>
+          <p className="text-sm text-zinc-900">Carrefour Maarif</p>
+          <p className="font-mono text-[10px]" style={{ color: accent }}>
+            {lang === "fr" ? "IA: courses" : "AI: groceries"}
+          </p>
+        </div>
+        <p className="font-mono text-sm" style={{ color: accent }}>
+          -148
+        </p>
+      </div>
     </div>
   </div>
 );
 
 const DesignGallery = () => {
   const { t, lang } = useLang();
+  const sectionRef = useRef<HTMLElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
 
   const mockups = [
     {
       name: "Tiboder",
       url: "mustafa.matajeralwaha.workers.dev",
-      accent: "#E8B14A",
+      accent: "#D4AF37",
       caption:
         lang === "fr"
           ? "Boutique en ligne d'outillage : perceuses, meuleuses, visseuses et accessoires pros — sur Cloudflare Workers."
           : "Online tools & hardware store: drills, grinders, screwdrivers, and pro accessories — on Cloudflare Workers.",
-      preview: <TiboderMockup lang={lang} />,
+      preview: <StorefrontMockup lang={lang} accent="#D4AF37" />,
     },
     {
       name: "Electro Box",
       url: "electro-box-commerce.vercel.app",
-      accent: "#60A5FA",
+      accent: "#E2E8F0",
       caption:
         lang === "fr"
           ? "Boutique d'électronique avec sidebar catégories, fiches produits et ajout au panier."
           : "Electronics store with category sidebar, product cards, and add-to-cart actions.",
-      preview: <ElectroBoxMockup lang={lang} />,
+      preview: <ElectronicsMockup lang={lang} accent="#E2E8F0" />,
     },
     {
       name: "Mojib.online",
       url: "mojib.online",
-      accent: "#A78BFA",
+      accent: "#D4AF37",
       caption:
         lang === "fr"
-          ? "Assistant IA déployé sur le site du client : prend les RDV (dentistes), les commandes (restos), vend des biens (immobilier)."
-          : "AI assistant deployed on the client's site: books appointments (dentists), takes orders (restaurants), sells properties (real estate).",
-      preview: <MojibMockup lang={lang} />,
+          ? "Assistant IA déployé sur le site du client : prend les RDV, les commandes, et qualifie les ventes."
+          : "AI assistant deployed on the client's site: books appointments, takes orders, and qualifies sales.",
+      preview: <AssistantMockup lang={lang} accent="#D4AF37" />,
     },
     {
       name: "Mizaniyti.online",
       url: "mizaniyti.online",
-      accent: "#34D399",
+      accent: "#E2E8F0",
       caption:
         lang === "fr"
           ? "Tableau de bord budget : solde, graphique hebdo, et catégorisation automatique par IA."
           : "Budget dashboard: balance, weekly chart, and automatic AI transaction categorization.",
-      preview: <MizaniytiMockup lang={lang} />,
+      preview: <BudgetMockup lang={lang} accent="#E2E8F0" />,
     },
   ];
 
+  useLayoutEffect(() => {
+    const section = sectionRef.current;
+    const track = trackRef.current;
+    if (!section || !track) return;
+
+    const cards = Array.from(track.querySelectorAll<HTMLElement>("[data-gallery-card]"));
+    const media = gsap.matchMedia();
+    const refreshTimer = window.setTimeout(() => ScrollTrigger.refresh(), 80);
+
+    media.add("(min-width: 768px)", () => {
+      const getDistance = () => Math.max(0, track.scrollWidth - window.innerWidth + 24);
+
+      const scrollTween = gsap.to(track, {
+        x: () => -getDistance(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: () => `+=${Math.max(getDistance() + section.offsetHeight, section.offsetHeight)}`,
+          pin: true,
+          scrub: 0.85,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      cards.forEach((card) => {
+        gsap.fromTo(
+          card,
+          { scale: 0.92, filter: "brightness(0.72)", opacity: 0.76 },
+          {
+            scale: 1,
+            filter: "brightness(1.12)",
+            opacity: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: card,
+              containerAnimation: scrollTween,
+              start: "left 70%",
+              end: "center center",
+              scrub: true,
+            },
+          }
+        );
+
+        gsap.to(card, {
+          scale: 0.94,
+          filter: "brightness(0.8)",
+          opacity: 0.82,
+          ease: "none",
+          scrollTrigger: {
+            trigger: card,
+            containerAnimation: scrollTween,
+            start: "center center",
+            end: "right 30%",
+            scrub: true,
+          },
+        });
+      });
+    });
+
+    media.add("(max-width: 767px)", () => {
+      gsap.set(track, { clearProps: "transform" });
+      gsap.set(cards, { clearProps: "transform,filter,opacity" });
+    });
+
+    return () => {
+      window.clearTimeout(refreshTimer);
+      media.revert();
+    };
+  }, [lang]);
+
   return (
-    <section id="design" className="py-32 px-6 relative overflow-hidden">
-      <div className="max-w-6xl mx-auto relative">
+    <section id="design" ref={sectionRef} className="relative overflow-hidden py-28 md:min-h-screen md:py-20">
+      <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-zinc-300 to-transparent" />
+      <div className="mx-auto max-w-6xl px-6">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8, ease: PREMIUM_EASE }}
         >
-          <p className="text-sm tracking-[0.3em] uppercase text-primary mb-3">
+          <p className="mb-3 text-sm uppercase tracking-[0.3em] text-[#D4AF37]">
             {t("design.kicker")}
           </p>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+          <h2 className="mb-4 text-3xl font-semibold text-zinc-900 md:text-4xl">
             {t("design.title")}
           </h2>
-          <p className="text-muted-foreground max-w-xl mb-16">
+          <p className="max-w-xl text-sm leading-relaxed text-zinc-600 md:text-base">
             {t("design.sub")}
           </p>
         </motion.div>
+      </div>
 
-        <div className="grid md:grid-cols-2 gap-10">
-          {mockups.map((m, i) => (
-            <motion.a
-              key={m.name}
-              href={`https://${m.url}`}
+      <div className="mt-12 md:mt-10">
+        <div ref={trackRef} className="flex flex-col gap-6 px-6 md:w-max md:flex-row md:items-stretch">
+          {mockups.map((mockup, index) => (
+            <a
+              key={mockup.name}
+              data-gallery-card
+              href={`https://${mockup.url}`}
               target="_blank"
               rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="block group"
+              className="group block w-full shrink-0 rounded-lg border border-zinc-200 bg-white shadow-sm p-3 transition-colors duration-500 premium-ease hover:border-[#D4AF37]/20 md:w-[min(78vw,760px)] md:p-4"
             >
-              <TiltCard>
-                <Browser url={m.url} accent={m.accent}>
-                  {m.preview}
-                </Browser>
-                <div className="mt-4 text-center">
-                  <p className="text-sm">
-                    <span className="text-foreground font-medium">{m.name}</span>
-                    <span className="mx-2 opacity-40">·</span>
-                    <span className="text-xs text-muted-foreground group-hover:text-primary transition-colors">
-                      {m.url} ↗
-                    </span>
+              <Browser url={mockup.url} accent={mockup.accent}>
+                {mockup.preview}
+              </Browser>
+              <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <p className="inline-flex items-center gap-2 text-base font-semibold text-zinc-900">
+                    {mockup.name}
+                    <ArrowUpRight className="size-4 text-[#D4AF37]" aria-hidden="true" />
                   </p>
-                  <p className="text-xs text-muted-foreground mt-1 max-w-md mx-auto leading-relaxed">
-                    {m.caption}
+                  <p className="mt-1 max-w-xl text-sm leading-relaxed text-zinc-600">
+                    {mockup.caption}
                   </p>
                 </div>
-              </TiltCard>
-            </motion.a>
+                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-[#D4AF37]">
+                  0{index + 1}
+                </span>
+              </div>
+            </a>
           ))}
         </div>
       </div>

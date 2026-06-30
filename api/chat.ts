@@ -10,11 +10,19 @@ About Ilyas Allali (use this and nothing else as ground truth):
 - Student at 1337 (42 Network) and UM6P.
 -Full stack devlopper
 - AI Architect — builds agentic AI products, automation pipelines, full-stack apps, and IoT projects.
-- Live products:
-  • Mojib.online — AI assistant deployed on businesses' websites. Books appointments (e.g. dentists), takes orders (restaurants), sells properties (real estate), and handles similar customer-facing flows. Frontend: Vite, HTML, CSS. Backend/automation: TypeScript & JavaScript. Powered by AI agents.
-  • Mizaniyti.online — Smart personal budget manager with AI categorization. React + TypeScript.
-  • Tiboder (mustafa.matajeralwaha.workers.dev) — e-commerce store selling tools & hardware ("outillage"): drills (perceuses), grinders (meuleuses), screwdrivers, hammers, saws, accessories.
-  • Electro Box (electro-box-commerce.vercel.app) — electronics e-commerce store.
+- Live products & systems:
+  [Automation & AI]
+  • Ryvo (https://ryvo.fr)
+  • Mojib (https://mojib.online) — AI assistant deployed on businesses' websites.
+  • Landixo (https://landixo.online)
+  [E-commerce]
+  • Maanzili (https://maanzili.store)
+  • Electro Box (https://electroboxedge.com)
+  [Systems]
+  • Mizaniyti (https://mizaniyti.online) — Smart personal budget manager with AI categorization.
+  • Outillage Boustane — Tools & Hardware system.
+  [Enterprise AI]
+  • Neo Motors — Built a custom AI system for Neo Motors.
 - Stack: C, C++, JavaScript, TypeScript, Python, React, Vite, n8n, Docker, Kubernetes.
 - Reach him on WhatsApp: +212 608 301 414.
 
@@ -43,7 +51,10 @@ export default async function handler(req: Request): Promise<Response> {
     return new Response("Method Not Allowed", { status: 405 });
   }
 
-  const apiKey = (globalThis as any).process?.env?.OPENAI_API_KEY;
+  const runtime = globalThis as typeof globalThis & {
+    process?: { env?: Record<string, string | undefined> };
+  };
+  const apiKey = runtime.process?.env?.OPENAI_API_KEY;
   if (!apiKey) {
     return new Response(
       JSON.stringify({ error: "OPENAI_API_KEY not configured on the server." }),
