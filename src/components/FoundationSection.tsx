@@ -13,8 +13,8 @@ const projects = [
     title: "Inception",
     lang: "DevOps",
     description:
-      "System administration with Docker & Kubernetes. Orchestrating a full infrastructure with Nginx, MariaDB, and WordPress in isolated containers.",
-    tags: ["Docker", "Kubernetes", "Nginx"],
+      "System administration with Docker. Orchestrating a full infrastructure with Nginx, MariaDB, and WordPress in isolated containers.",
+    tags: ["Docker", "Nginx"],
   },
   {
     title: "IRC Server",

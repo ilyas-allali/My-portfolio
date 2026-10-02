@@ -1,6 +1,6 @@
 // Serverless proxy for the "Talk to Ilyas" chatbot.
 // Deployable as a Vercel Edge/Node function or adaptable to Cloudflare Workers.
-// Requires env var OPENAI_API_KEY set in the deployment dashboard.
+// Requires env var GEMINI_API_KEY set in the deployment dashboard.
 
 export const config = { runtime: "edge" };
 
@@ -8,8 +8,8 @@ const SYSTEM_PROMPT = `You are "Ilyas-bot", a friendly mini version of Ilyas All
 
 About Ilyas Allali (use this and nothing else as ground truth):
 - Student at 1337 (42 Network) and UM6P.
--Full stack devlopper
-- AI Architect — builds agentic AI products, automation pipelines, full-stack apps, and IoT projects.
+- Full-stack developer
+- AI Architect — builds agentic AI products, automation pipelines, full-stack apps.
 - Live products & systems:
   [Automation & AI]
   • Ryvo (https://ryvo.fr)
@@ -23,7 +23,8 @@ About Ilyas Allali (use this and nothing else as ground truth):
   • Outillage Boustane — Tools & Hardware system.
   [Enterprise AI]
   • Neo Motors — Built a custom AI system for Neo Motors.
-- Stack: C, C++, JavaScript, TypeScript, Python, React, Vite, n8n, Docker, Kubernetes.
+- Stack: C, C++, JavaScript, TypeScript, Python, React, Vite, n8n, Docker.
+- GitHub: https://github.com/ilyas-allali
 - Reach him on WhatsApp: +212 608 301 414.
 
 Language:
@@ -46,67 +47,73 @@ How to behave:
 - Never invent projects, dates, or facts not listed above. If you don't know, say so.
 - Keep replies under 4 short sentences.`;
 
+type Message = { role: "user" | "assistant"; content: string };
+const json = (body: unknown, status = 200) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: { "Content-Type": "application/json", "Cache-Control": "no-store" },
+  });
+
 export default async function handler(req: Request): Promise<Response> {
   if (req.method !== "POST") {
-    return new Response("Method Not Allowed", { status: 405 });
+    return new Response("Method Not Allowed", { status: 405, headers: { Allow: "POST" } });
+  }
+
+  let body: { messages?: unknown; lang?: unknown };
+  try {
+    body = await req.json() as typeof body;
+  } catch {
+    return json({ error: "Invalid JSON" }, 400);
+  }
+  if (!body || !Array.isArray(body.messages) || !body.messages.length ||
+    !body.messages.every((m): m is Message => m &&
+      (m.role === "user" || m.role === "assistant") &&
+      typeof m.content === "string" && m.content.trim().length > 0 && m.content.length <= 4000)) {
+    return json({ error: "Provide non-empty chat messages of at most 4000 characters." }, 400);
+  }
+  // Start retained history with a user turn, and always end with the latest question.
+  const messages = (body.messages as Message[]).slice(-10);
+  while (messages.length && messages[0].role !== "user") messages.shift();
+  if (!messages.length || messages.at(-1)?.role !== "user") {
+    return json({ error: "A user question is required." }, 400);
   }
 
   const runtime = globalThis as typeof globalThis & {
     process?: { env?: Record<string, string | undefined> };
   };
-  const apiKey = runtime.process?.env?.OPENAI_API_KEY;
-  if (!apiKey) {
-    return new Response(
-      JSON.stringify({ error: "OPENAI_API_KEY not configured on the server." }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
-    );
-  }
+  const apiKey = runtime.process?.env?.GEMINI_API_KEY;
+  const model = runtime.process?.env?.GEMINI_MODEL || "gemini-3.5-flash";
+  if (!apiKey) return json({ error: "Chat is temporarily unavailable." }, 503);
 
-  let body: {
-    messages?: { role: "user" | "assistant"; content: string }[];
-    lang?: "en" | "fr";
-  };
   try {
-    body = await req.json();
-  } catch {
-    return new Response(JSON.stringify({ error: "Invalid JSON" }), { status: 400 });
-  }
-
-  const userMessages = (body.messages ?? []).slice(-10).filter(
-    (m) => (m.role === "user" || m.role === "assistant") && typeof m.content === "string"
-  );
-  const preferredLang = body.lang === "fr" ? "fr" : "en";
-
-  const upstream = await fetch("https://api.openai.com/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      model: "gpt-4o-mini",
-      temperature: 0.6,
-      max_tokens: 220,
-      messages: [
-        { role: "system", content: SYSTEM_PROMPT },
-        { role: "system", content: `preferred_language: ${preferredLang}` },
-        ...userMessages,
-      ],
-    }),
-  });
-
-  if (!upstream.ok) {
-    const text = await upstream.text();
-    return new Response(
-      JSON.stringify({ error: "Upstream error", detail: text.slice(0, 500) }),
-      { status: 502, headers: { "Content-Type": "application/json" } }
+    const upstream = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
+        signal: AbortSignal.timeout(25000),
+        body: JSON.stringify({
+          systemInstruction: {
+            parts: [{ text: `${SYSTEM_PROMPT}\npreferred_language: ${body.lang === "fr" ? "fr" : "en"}` }],
+          },
+          contents: messages.map((m) => ({
+            role: m.role === "assistant" ? "model" : "user",
+            parts: [{ text: m.content }],
+          })),
+          generationConfig: { maxOutputTokens: 2048 },
+        }),
+      }
     );
+    if (!upstream.ok) return json({ error: "Chat is temporarily unavailable." }, 502);
+    const data = await upstream.json() as {
+      candidates?: { content?: { parts?: { text?: string; thought?: boolean }[] } }[];
+    };
+    const reply = data.candidates?.[0]?.content?.parts
+      ?.filter((part: { text?: string; thought?: boolean }) => typeof part.text === "string" && !part.thought)
+      .map((part) => part.text).join("").trim();
+    if (!reply) return json({ error: "No reply received. Please try again." }, 502);
+    return json({ reply });
+  } catch {
+    return json({ error: "Chat is temporarily unavailable. Please try again." }, 502);
   }
-
-  const data = await upstream.json();
-  const reply: string = data.choices?.[0]?.message?.content?.trim() ?? "";
-  return new Response(JSON.stringify({ reply }), {
-    status: 200,
-    headers: { "Content-Type": "application/json" },
-  });
 }

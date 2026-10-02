@@ -1,14 +1,14 @@
+import cvUrl from "../../Ilyas_Allali_CV_DaiL_Projects.pdf?url";
 import {
   useEffect,
   useMemo,
   useRef,
   useState,
-  type AnchorHTMLAttributes,
   type MouseEvent as ReactMouseEvent,
   type ReactNode,
 } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
-import { Download, MessageCircle } from "lucide-react";
+import { motion, useMotionValue, useSpring, type HTMLMotionProps } from "framer-motion";
+import { Download, Github, MessageCircle } from "lucide-react";
 import { useLang } from "@/lib/i18n";
 import { PREMIUM_EASE } from "@/lib/motion";
 
@@ -202,7 +202,7 @@ const MatrixShuffleText = ({ text, className = "" }: { text: string; className?:
   );
 };
 
-type MagneticLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
+type MagneticLinkProps = HTMLMotionProps<"a"> & {
   children: ReactNode;
   variant: "primary" | "secondary";
 };
@@ -338,9 +338,9 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 0.8, delay: 0.38, ease: PREMIUM_EASE }}
-          className="flex flex-col items-center justify-center gap-4 sm:flex-row"
+          className="flex flex-col items-center justify-center gap-4 sm:flex-row sm:flex-wrap"
         >
-          <MagneticLink href="/cv-ilyas-allali.pdf" download variant="primary">
+          <MagneticLink href={cvUrl} download variant="primary">
             <Download className="h-4 w-4" aria-hidden="true" />
             {t("hero.cv")}
           </MagneticLink>
@@ -352,6 +352,10 @@ const HeroSection = () => {
           >
             <MessageCircle className="h-4 w-4" aria-hidden="true" />
             {t("hero.talk")}
+          </MagneticLink>
+          <MagneticLink href="https://github.com/ilyas-allali" target="_blank" rel="noopener noreferrer" variant="secondary">
+            <Github className="h-4 w-4" aria-hidden="true" />
+            GitHub
           </MagneticLink>
         </motion.div>
       </div>

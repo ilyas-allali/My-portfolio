@@ -57,7 +57,8 @@ const ChatbotWidget = () => {
         }),
       });
       const data = await res.json();
-      const reply = data.reply ?? t("bot.error.brain");
+      const reply = res.ok && typeof data.reply === "string" && data.reply.trim()
+        ? data.reply : t("bot.error.brain");
       setMessages((m) => [...m, { role: "assistant", content: reply }]);
     } catch {
       setMessages((m) => [...m, { role: "assistant", content: t("bot.error.network") }]);
@@ -156,6 +157,7 @@ const ChatbotWidget = () => {
             <div className="border-t border-border/40 p-3 flex gap-2">
               <input
                 value={input}
+                maxLength={4000}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={onKey}
                 placeholder={t("bot.placeholder")}

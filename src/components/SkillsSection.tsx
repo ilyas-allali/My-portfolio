@@ -15,7 +15,6 @@ const languages = [
 const tools = [
   { name: "n8n", token: "N8", icon: Network },
   { name: "Docker", token: "DK", icon: Wrench },
-  { name: "Kubernetes", token: "K8", icon: Network },
   { name: "React", token: "RX", icon: Code2 },
   { name: "Vite", token: "VT", icon: Zap },
 ];
@@ -46,8 +45,8 @@ const SkillsSection = () => {
 
   const expertise =
     lang === "fr"
-      ? ["Automatisation IoT", "IA Agentique", "Architecture Full-Stack", "E-Commerce", "API & Webhooks"]
-      : ["IoT Automation", "Agentic AI", "Full-Stack Architecture", "E-Commerce", "APIs & Webhooks"];
+      ? ["IA Agentique", "Architecture Full-Stack", "E-Commerce", "API & Webhooks"]
+      : ["Agentic AI", "Full-Stack Architecture", "E-Commerce", "APIs & Webhooks"];
 
   return (
     <section id="skills" className="relative overflow-hidden px-6 py-10 md:py-20">

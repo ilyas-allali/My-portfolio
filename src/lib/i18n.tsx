@@ -73,9 +73,11 @@ const dict: Dict = {
   },
   "skills.build.automation": { en: "Automation Pipelines", fr: "Pipelines d'automatisation" },
   "skills.build.automation.sub": {
-    en: "n8n workflows, IoT integrations, backend automation with TypeScript & Python.",
-    fr: "Workflows n8n, intégrations IoT, automatisation backend avec TypeScript & Python.",
+    en: "n8n workflows, backend automation with TypeScript & Python.",
+    fr: "Workflows n8n, automatisation backend avec TypeScript & Python.",
   },
+
+  "github.view": { en: "View my repositories", fr: "Voir mes dépôts" },
 
   // Contact
   "contact.title.a": { en: "Got a project?", fr: "Un projet en tête ?" },

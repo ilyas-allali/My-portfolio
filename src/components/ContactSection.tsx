@@ -1,3 +1,5 @@
+import { Github } from "lucide-react";
+import cvUrl from "../../Ilyas_Allali_CV_DaiL_Projects.pdf?url";
 import { motion } from "framer-motion";
 import { useLang } from "@/lib/i18n";
 
@@ -74,9 +76,22 @@ const ContactSection = () => {
           </a>
         </motion.div>
 
+        <a
+          href="https://github.com/ilyas-allali"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group flex items-center gap-4 glass-frost rounded-2xl px-6 py-4 hover:border-primary/40 transition-all duration-300 mb-5"
+        >
+          <Github className="h-6 w-6 text-primary" aria-hidden="true" />
+          <div>
+            <p className="text-sm font-medium text-slate-900">{t("github.view")}</p>
+            <p className="text-xs text-zinc-500">github.com/ilyas-allali</p>
+          </div>
+        </a>
+
         {/* CV banner */}
         <motion.a
-          href="/cv-ilyas-allali.pdf"
+          href={cvUrl}
           download
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
